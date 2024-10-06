@@ -46,7 +46,7 @@ export function scrollToPage(page) {
         return;
     }
 
-    let i = 15 * (page - 1) + 6;
+    let i = 15 * (page - 1) + 2;
     let elements = gallery.querySelectorAll('li');
 
     console.log(elements.length);

@@ -82,6 +82,10 @@ async function loadImages(searchString, page, reset) {
 
     } catch (error) {
         console.log(error);
+        iziToast.info({
+            title: "Error",
+            message: "Illegal operation"
+        });
         loader.style.display = `none`;
     }
 }
