@@ -34,19 +34,17 @@ form.addEventListener("submit", event => {
     currentPage = 1;
 
     loadImages(searchValue, currentPage, true);
-
 })
 
 btnLoadMore.addEventListener("click", event => {
     event.preventDefault();
-    console.log(btnLoadMore);
 
     currentPage += 1;
 
     loadImages(searchString, currentPage, false);
 })
 
-function loadImages(searchString, page, reset) {
+async function loadImages(searchString, page, reset) {
 
     loader.style.display = 'flex';
     btnLoadMore.style.display = `none`;
@@ -56,15 +54,12 @@ function loadImages(searchString, page, reset) {
         loadedItems = 0;
     }
 
-    searchImages(searchString, page)
-
-    .then((jsonImages) => {
-
-        const images = jsonImages["data"]["hits"];
-        totalHits = jsonImages["data"]["totalHits"];
+    try {
+        const response = await searchImages(searchString, page);
+        console.log(response);
+        const images = response["data"]["hits"];
+        totalHits = response["data"]["totalHits"];
         loadedItems += images.length;
-
-        console.log(jsonImages);
 
         if(loadedItems >= totalHits) {
             btnLoadMore.style.display = `none`;
@@ -73,7 +68,7 @@ function loadImages(searchString, page, reset) {
             btnLoadMore.style.display = `block`;
             endOfGallery.style.display = `none`;
         }
-
+       
         if(images.length === 0) {
             iziToast.info({
                 title: "Info",
@@ -83,12 +78,10 @@ function loadImages(searchString, page, reset) {
             refreshUI(images, reset);
             scrollToPage(currentPage);
         }
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-    .finally(() => {
         loader.style.display = `none`;
-    })
 
+    } catch (error) {
+        console.log(error);
+        loader.style.display = `none`;
+    }
 }
