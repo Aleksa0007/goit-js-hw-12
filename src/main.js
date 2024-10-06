@@ -84,7 +84,7 @@ async function loadImages(searchString, page, reset) {
         console.log(error);
         iziToast.info({
             title: "Error",
-            message: "Illegal operation"
+            message: "Oops. Something went wrong."
         });
         loader.style.display = `none`;
     }
